@@ -1,4 +1,4 @@
-string toBinary(int num) {
+string toBinaryString(int num) {
     if (num == 0) return "0"; 
     string binary = "";
 
