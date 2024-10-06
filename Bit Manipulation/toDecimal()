@@ -1,4 +1,4 @@
-int convertToDecimal(string& result){
+int toDecimal(string& result){
     int size = result.size();
     int num = 0;
     int power = 1;
