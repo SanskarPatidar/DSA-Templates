@@ -1,0 +1,11 @@
+string toBinary(int num) {
+    if (num == 0) return "0"; 
+    string binary = "";
+
+    while (num > 0) {
+        binary.push_back((n%2) + '0');
+        num /= 2;
+    }
+    reverse(binary.begin(), binary.end());
+    return binary;
+}
