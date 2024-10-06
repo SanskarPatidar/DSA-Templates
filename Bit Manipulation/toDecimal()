@@ -1,0 +1,10 @@
+int convertToDecimal(string& result){
+    int size = result.size();
+    int num = 0;
+    int power = 1;
+    for(int i = size-1; i>=0; i--){
+        if(result[i] == '1')num = num + power;
+        power *= 2;
+    }
+    return num;
+}
