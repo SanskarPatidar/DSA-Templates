@@ -34,3 +34,31 @@ class DisjointSet{
     
     
 };
+
+KOTLIN CODE -->
+class DisjointSet(s: Int) {
+    val size = MutableList(s + 1) { 1 }
+    val parent = MutableList(s + 1) { it }
+
+    fun findUPar(node: Int): Int {
+        if (parent[node] == node) return node
+        parent[node] = findUPar(parent[node])
+        return parent[node]
+    }
+
+    fun unionBySize(u: Int, v: Int) {
+        val Uparu = findUPar(u)
+        val Uparv = findUPar(v)
+
+        if (Uparu == Uparv) return
+
+        if (size[Uparu] < size[Uparv]) {
+            parent[Uparu] = Uparv
+            size[Uparv] += size[Uparu]
+        } else {
+            parent[Uparv] = Uparu
+            size[Uparu] += size[Uparv]
+        }
+    }
+}
+
