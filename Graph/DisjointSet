@@ -1,3 +1,5 @@
+CPP CODE -->
+
 class DisjointSet{
     public: 
     vector<int> size, parent;
@@ -36,6 +38,7 @@ class DisjointSet{
 };
 
 KOTLIN CODE -->
+
 class DisjointSet(s: Int) {
     val size = MutableList(s + 1) { 1 }
     val parent = MutableList(s + 1) { it }
@@ -58,6 +61,48 @@ class DisjointSet(s: Int) {
         } else {
             parent[Uparv] = Uparu
             size[Uparu] += size[Uparv]
+        }
+    }
+}
+
+ENHANCED DISJOINT SET(IN KOTLIN) -->
+
+class DisjointSet(s: Int) {
+    val size = MutableList(s + 1) { 1 }
+    val parent = MutableList(s + 1) { it }
+    val edge = MutableList(s + 1) { 0 }
+
+    fun findUPar(node: Int): Int {
+        if (parent[node] == node) return node
+        parent[node] = findUPar(parent[node])
+        return parent[node]
+    }
+
+    fun getEdges(node: Int): Int {
+        return edge[findUPar(node)]
+    }
+
+    fun getSizes(node: Int): Int {
+        return size[findUPar(node)]
+    }
+
+    fun unionBySize(u: Int, v: Int) {
+        val Uparu = findUPar(u)
+        val Uparv = findUPar(v)
+
+        if (Uparu == Uparv) {
+            edge[Uparu]++  // If they're already connected, increment the edge count
+            return
+        }
+
+        if (size[Uparu] < size[Uparv]) {
+            parent[Uparu] = Uparv
+            size[Uparv] += size[Uparu]
+            edge[Uparv] += edge[Uparu] + 1  // Update edge count when merging
+        } else {
+            parent[Uparv] = Uparu
+            size[Uparu] += size[Uparv]
+            edge[Uparu] += edge[Uparv] + 1
         }
     }
 }
