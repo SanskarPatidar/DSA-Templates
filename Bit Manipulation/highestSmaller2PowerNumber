@@ -1,0 +1,19 @@
+CPP -->
+int highestSmaller2PowerNumber(int n) {
+    int i = 1;
+    while (i <= n) {
+        i = i << 1;
+    }
+    return (i >> 1);
+}
+
+TC == O(32)
+
+KOTLIN -->
+private fun highestsmaller2powernumber(n: Int): Int{
+        var i = 1
+        while(i<=n){
+            i = i shl 1
+        }
+        return (i shr 1)
+    }
