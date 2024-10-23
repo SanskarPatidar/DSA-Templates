@@ -1,76 +1,12 @@
 3 RULES FOR COMPARATOR OF HEAP -->
 1. use min heap always for using custom comparator
-2. just reverse condition of sort comparator
-3. use struct and make func inside, write struct name instead of `comp`.
+2. just reverse condition as that of sort comparator
+3. use this syntax -->
 
-
-
-Custom Comparator for Min-Heap and Max-Heap using struct in C++
-When using a custom comparator for a priority queue, you need to define how the elements will be ordered.
-
-Min-Heap: The root will have the smallest element. The comparator should return true if the first element is larger than the second.
-Max-Heap: The root will have the largest element. The comparator should return true if the first element is smaller than the second.
-1. Min-Heap Custom Comparator
-To create a min-heap, we compare such that the smallest element appears at the top of the heap.
-
-
-cpp
-Copy code
-#include <queue>
-#include <vector>
-using namespace std;
-
-struct MinHeapComparator {
-    bool operator()(const int& a, const int& b) {
-        return a > b;  // Min-heap: root should be the smallest
+    static bool comp(const Tuple& a, const Tuple& b) {
+        return a.e1 + a.e2 > b.e1 + b.e2;  // Min-heap comparator
     }
-};
 
-priority_queue<int, vector<int>, MinHeapComparator> minHeap;
-In this case, the heap will prioritize smaller elements by keeping the smallest element at the root.
-
-2. Max-Heap Custom Comparator
-To create a max-heap, we compare such that the largest element appears at the top of the heap.
-
-cpp
-Copy code
-#include <queue>
-#include <vector>
-using namespace std;
-
-struct MaxHeapComparator {
-    bool operator()(const int& a, const int& b) {
-        return a < b;  // Max-heap: root should be the largest
+    void example() {
+        priority_queue<Tuple, vector<Tuple>, decltype(&comp)> pq(comp);
     }
-};
-
-priority_queue<int, vector<int>, MaxHeapComparator> maxHeap;
-Here, the heap will prioritize larger elements by keeping the largest element at the root.
-
-General Rule:
-Min-Heap: return a > b; (smallest element should come first)
-Max-Heap: return a < b; (largest element should come first)
-Example with Pairs (Custom Data):
-If you need to use a custom data structure (like pair<int, int>), the comparator can be extended accordingly:
-
-Min-Heap for pairs based on the first element:
-cpp
-Copy code
-struct MinHeapComparator {
-    bool operator()(const pair<int, int>& a, const pair<int, int>& b) {
-        return a.first > b.first;
-    }
-};
-
-priority_queue<pair<int, int>, vector<pair<int, int>>, MinHeapComparator> minHeap;
-Max-Heap for pairs based on the second element:
-cpp
-Copy code
-struct MaxHeapComparator {
-    bool operator()(const pair<int, int>& a, const pair<int, int>& b) {
-        return a.second < b.second;
-    }
-};
-
-priority_queue<pair<int, int>, vector<pair<int, int>>, MaxHeapComparator> maxHeap;
-In both cases, the comparator defines the rule based on which element (or property) should determine the ordering in the heap.
