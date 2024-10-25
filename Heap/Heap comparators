@@ -10,3 +10,14 @@
     void example() {
         priority_queue<Tuple, vector<Tuple>, decltype(&comp)> pq(comp);
     }
+
+***We will return true for what type of order we want to maintain. The order will be seen from bottom to top.
+Actually there are many ways to understand but after seeing lot of ways i found the below one more understandable and easier.
+
+We will see the ordering from bottom to top. So, if i say that the order is ascending then it means that the smaller elements 
+will be at the bottom and the higher elements will be at the top. (I'm taking tree representation of the heap, 
+if you consider array representation then the higher values will be at right and lower at the left)***
+
+NOTE: WHEN USING A COMP, IT IS NEITHER A MIN NOR MAX HEAP, IT IS OUR OWN HEAP
+
+imagine with string to have in lexicographical ordering
