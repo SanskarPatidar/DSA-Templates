@@ -1,0 +1,5 @@
+// Use a reverse iterator to iterate from the last element to the first
+
+for (auto it = mySet.rbegin(); it != mySet.rend(); ++it) {
+    std::cout << *it << " ";
+}
