@@ -1,5 +1,5 @@
 CPP -->
-**2 ^ ⌊ log(N)⌋ is simply the highest 2 power number smaller than N.**
+2 ^ ⌊ log(N)⌋ is simply the highest 2 power number smaller than N.
 
 int highestSmaller2PowerNumber(int n) {
     int i = 1;
