@@ -1,0 +1,40 @@
+CPP --> note to manually initialize the array in code using updation query
+class FenwickTree {
+private:
+    vector<int> tree;
+    int n;
+
+    // Internal helper to get the sum from 1 to index
+    int prefixSum(int index) {
+        int sum = 0;
+        while (index > 0) {
+            sum += tree[index];
+            index -= index & -index;  // Move to parent node
+        }
+        return sum;
+    }
+
+public:
+    // Constructor to initialize a Fenwick Tree of size n
+    FenwickTree(int size) : n(size) {
+        tree.resize(n + 1, 0);  // Fenwick Tree is typically 1-indexed
+    }
+
+    // Point update: add 'value' to the element at 'index'
+    void updatePoint(int index, int value) {
+        while (index <= n) {
+            tree[index] += value;
+            index += index & -index;  // Move to next node
+        }
+    }
+
+    // Range sum query from 1 to 'index'
+    int querySum(int index) {
+        return prefixSum(index);
+    }
+
+    // Range sum query from 'left' to 'right'
+    int queryRange(int left, int right) {
+        return prefixSum(right) - prefixSum(left - 1);
+    }
+};
