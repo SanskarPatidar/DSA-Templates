@@ -1,38 +1,65 @@
-CPP -->
-class SegmentTree{
+class SegmentTree {
+private:
+    vector<int> tree;
     int n;
-    vector<int> Seg;
-    int query(int i, int sL, int sR, int qL, int qR){
-        if(sL > qR || sR < qL) return 0;
-        if(sL >= qL && sR <= qR) return Seg[i];
 
-        int left_sum = query(2 * i + 1, sL, (sL + sR) / 2, qL, qR);
-        int right_sum = query(2 * i + 2, (sL + sR) / 2 + 1, sR, qL, qR);
-
-        return left_sum + right_sum;
-    }
-    void update(int i, int sL, int sR, int idx){
-        if(sL > idx || sR < idx) return;
-        if(sL == sR){
-            Seg[i]++;
-            return;
+    // Build the tree with initial values from input array
+    void buildTree(const vector<int>& arr, int node, int start, int end) {
+        if (start == end) {
+            tree[node] = arr[start];
+        } else {
+            int mid = (start + end) / 2;
+            buildTree(arr, 2 * node + 1, start, mid);
+            buildTree(arr, 2 * node + 2, mid + 1, end);
+            tree[node] = tree[2 * node + 1] + tree[2 * node + 2];
         }
-        int mid = (sL + sR) / 2;
+    }
 
-        if(mid >= idx) update(2 * i + 1, sL, mid, idx);
-        else update(2 * i + 2, mid + 1, sR, idx);
+    // Query sum in the range [L, R]
+    int querySum(int node, int start, int end, int L, int R) {
+        if (R < start || end < L) {
+            return 0;  // Out of range
+        }
+        if (L <= start && end <= R) {
+            return tree[node];  // Complete overlap
+        }
+        // Partial overlap
+        int mid = (start + end) / 2;
+        int leftSum = querySum(2 * node + 1, start, mid, L, R);
+        int rightSum = querySum(2 * node + 2, mid + 1, end, L, R);
+        return leftSum + rightSum;
+    }
 
-        Seg[i] = Seg[2 * i + 1] + Seg[2 * i + 2];
+    // Update a single element in the array
+    void updatePoint(int node, int start, int end, int idx, int value) {
+        if (start == end) {
+            tree[node] = value;
+        } else {
+            int mid = (start + end) / 2;
+            if (idx <= mid) {
+                updatePoint(2 * node + 1, start, mid, idx, value);
+            } else {
+                updatePoint(2 * node + 2, mid + 1, end, idx, value);
+            }
+            tree[node] = tree[2 * node + 1] + tree[2 * node + 2];
+        }
     }
-    public:
-    SegmentTree(int n){
-        this -> n = n;
-        Seg.resize(4 * n, 0);
+
+public:
+    // Constructor to initialize the Segment Tree with an input array
+    SegmentTree(const vector<int>& arr) {
+        n = arr.size();
+        tree.resize(4 * n);  // 4*n is enough to store the Segment Tree
+        buildTree(arr, 0, 0, n - 1);
     }
-    int query(int val){
-        return query(0, 0, n - 1, val + 1, n - 1);
+
+    // Public function to query the sum in range [L, R]
+    int querySum(int L, int R) {
+        return querySum(0, 0, n - 1, L, R);
     }
-    void update(int idx){
-        update(0, 0, n - 1, idx);
+
+    // Public function to update the value at index idx to newValue
+    void updatePoint(int idx, int newValue) {
+        updatePoint(0, 0, n - 1, idx, newValue);
     }
 };
