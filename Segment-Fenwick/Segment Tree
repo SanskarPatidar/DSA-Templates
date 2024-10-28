@@ -1,0 +1,38 @@
+CPP -->
+class SegmentTree{
+    int n;
+    vector<int> Seg;
+    int query(int i, int sL, int sR, int qL, int qR){
+        if(sL > qR || sR < qL) return 0;
+        if(sL >= qL && sR <= qR) return Seg[i];
+
+        int left_sum = query(2 * i + 1, sL, (sL + sR) / 2, qL, qR);
+        int right_sum = query(2 * i + 2, (sL + sR) / 2 + 1, sR, qL, qR);
+
+        return left_sum + right_sum;
+    }
+    void update(int i, int sL, int sR, int idx){
+        if(sL > idx || sR < idx) return;
+        if(sL == sR){
+            Seg[i]++;
+            return;
+        }
+        int mid = (sL + sR) / 2;
+
+        if(mid >= idx) update(2 * i + 1, sL, mid, idx);
+        else update(2 * i + 2, mid + 1, sR, idx);
+
+        Seg[i] = Seg[2 * i + 1] + Seg[2 * i + 2];
+    }
+    public:
+    SegmentTree(int n){
+        this -> n = n;
+        Seg.resize(4 * n, 0);
+    }
+    int query(int val){
+        return query(0, 0, n - 1, val + 1, n - 1);
+    }
+    void update(int idx){
+        update(0, 0, n - 1, idx);
+    }
+};
