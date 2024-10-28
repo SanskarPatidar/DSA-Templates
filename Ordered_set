@@ -3,3 +3,7 @@
 for (auto it = mySet.rbegin(); it != mySet.rend(); ++it) {
     std::cout << *it << " ";
 }
+
+to access first element --> .begin()
+
+to access last element --> *prev(s.end()) OR .rbegin()
