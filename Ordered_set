@@ -3,6 +3,10 @@
 for (auto it = mySet.rbegin(); it != mySet.rend(); ++it) {
     std::cout << *it << " ";
 }
+rbegin, rend only works for map and multimap, not unorderedmap
+for (auto it = mp.rbegin(); it != mp.rend(); ++it) {
+        cout << it->first << " --> " << it->second << endl;
+    }
 
 to access first element --> .begin()
 
