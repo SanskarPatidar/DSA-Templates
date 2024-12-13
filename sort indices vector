@@ -1,0 +1,3 @@
+sort(indices.begin(), indices.end(), [&inputNums](int i, int j) {
+            return inputNums[i] < inputNums[j];  // Compare values in inputNums at indices
+        });
