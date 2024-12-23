@@ -5,6 +5,10 @@ sort(indices.begin(), indices.end(), [&](int i, int j) {
             return nums[i] < nums[j];
         });
 
+// way around --> // if there are duplicate elements in array
+
+stable_sort ...
+
 
 // must hard code it for it to be stable or use stable sort stl
 // that & allows to access global values
