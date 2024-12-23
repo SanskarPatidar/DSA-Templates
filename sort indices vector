@@ -1,4 +1,4 @@
-sort(indices.begin(), indices.end(), [&inputNums](int i, int j) {
+sort(indices.begin(), indices.end(), [&](int i, int j) {
             if (nums[i] == nums[j]) {
                 return i < j; // If values are equal, pick the element with the smaller index
             }
@@ -6,4 +6,5 @@ sort(indices.begin(), indices.end(), [&inputNums](int i, int j) {
         });
 
 
-NOTE --> must hard code it for it to be stable or use stable sort stl
+// must hard code it for it to be stable or use stable sort stl
+// that & allows to access global values
