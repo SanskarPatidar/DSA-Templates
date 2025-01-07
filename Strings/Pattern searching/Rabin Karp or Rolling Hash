@@ -1,3 +1,49 @@
 https://www.youtube.com/watch?v=io9yJ-KelgE&t=1s
 Aryan Mittal
 
+***NOTE --> every thing in this code is relevent, that is even mod with subtraction and that extra for loop of checking (PROVEN ON LEETCODE QUESTION SUBMISSION).
+
+
+int mod = 1e9 + 7;
+long long binaryExponentiation(long long a, long long b, long long m) {
+    long long result = 1;
+    a = a % m;
+    while (b > 0) {
+        if (b & 1) {
+            result = (result * a) % m;
+        }
+        a = (a * a) % m;
+        b >>= 1;
+    }
+    return result;
+}
+int RollingHash(string& text, string& pattern){
+    int m = text.length(), n = pattern.length();
+    if(m < n || m == 0)return -1;
+    if(n == 0)return 0;
+    long long max_weight = binaryExponentiation(26, n, mod);
+    long long hash_of_pattern = 0;
+    long long factor = 1;
+    for(int i = n-1; i>=0; i--){
+        hash_of_pattern = (hash_of_pattern + ((pattern[i] - 'a') * factor)) % mod;
+        factor = (factor * 26) % mod;
+    }
+    long long hash_in_text = 0;
+    for(int i = 0, j = 0; j<m; j++){
+        hash_in_text = (hash_in_text * 26) % mod;
+        hash_in_text = (hash_in_text + (text[j] - 'a')) % mod;
+        if(j-i+1 > n){
+            hash_in_text = (hash_in_text - ((text[i] - 'a') * max_weight) % mod + mod) % mod;
+            i++;
+        }
+        if(j-i+1 == n and hash_in_text == hash_of_pattern){
+            int k = i, l = 0;
+            while(l<n){
+                if(text[k] != pattern[l])break;
+                k++, l++;
+            }
+            if(l == n)return i;
+        }
+    }
+    return -1;
+}
