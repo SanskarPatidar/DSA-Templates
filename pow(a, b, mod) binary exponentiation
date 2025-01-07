@@ -13,3 +13,8 @@ long long binaryExponentiation(long long a, long long b, long long m) {
 
     return result;
 }
+
+
+Why Not Binary Exponentiation?
+Binary Exponentiation is faster for integer powers but is limited to integers.
+The pow() function is designed to work with floating-point bases and exponents, making general-purpose algorithms more suitable.
