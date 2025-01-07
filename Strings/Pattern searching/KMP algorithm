@@ -1,0 +1,38 @@
+vector<int> getLps(string& pattern){
+    int n = pattern.length();
+    vector<int> lps(n, 0);
+    int prefix = 0, suffix = 1;
+    while(suffix<n){
+        if(pattern[prefix] == pattern[suffix]){
+            lps[suffix] = prefix + 1;
+            suffix++, prefix++;
+        }
+        else {
+            if(prefix == 0)suffix++;
+            else {
+                prefix = lps[prefix-1];
+            }
+        }
+    }
+    return lps;
+}
+int KMP(string& text, string& pattern){
+    int m = text.length(), n = pattern.length();
+    if(m<n or m == 0)return -1;
+    if(n == 0)return 0;
+    vector<int> lps = getLps(pattern);
+    int i = 0, j = 0;
+    while(i<m and j<n){
+        if(text[i] == pattern[j]){
+            i++, j++;
+        }
+        else{
+            if(j == 0)i++;
+            else {
+                j = lps[j-1];
+            }
+        }
+    }
+    if(j == n)return i-j;
+    return -1;
+}
