@@ -72,7 +72,7 @@ private:
     vector<int> size;
     vector<int> parent;
     vector<int> edge;
-
+public:
     // Find the ultimate parent of a node with path compression
     int findUPar(int node) {
         if (parent[node] == node)
@@ -80,7 +80,7 @@ private:
         return parent[node] = findUPar(parent[node]);
     }
 
-public:
+
     // Constructor to initialize the data structures
     DisjointSet(int s) {
         size.resize(s + 1, 1);
