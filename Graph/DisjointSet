@@ -1,167 +1,62 @@
-CPP CODE -->
+public class DisjointSet {
+    private int[] size;
+    private int[] parent;
+    private int[] edge;
+    private int components;
 
-class DisjointSet{
-    public: 
-    vector<int> size, parent;
-    
-    DisjointSet(int s){
-        size.resize(s+1, 1);
-        parent.resize(s+1);
-        for(int i = 0; i<=s; i++){
-            parent[i] = i;
-        }
-    }
-    
-    int findUPar(int node){
-        if(parent[node] == node)return node;
-        
-        return parent[node] = findUPar(parent[node]);
-    }  
-    
-    void unionBySize(int u, int v){
-        int Uparu = findUPar(u);
-        int Uparv = findUPar(v);
-        
-        if(Uparu == Uparv)return;
-        
-        if(size[u]<size[v]){
-            parent[Uparu] = Uparv;
-            size[Uparv] += size[Uparu];
-        }
-        else{
-            parent[Uparv] = Uparu;
-            size[Uparu] += size[Uparv];
-        }
-    }
-    
-    
-};
+    public DisjointSet(int s) {
+        size = new int[s + 1];
+        parent = new int[s + 1];
+        edge = new int[s + 1];
+        components = s;
 
-KOTLIN CODE -->
+        Arrays.fill(size, 1); 
+        Arrays.fill(edge, 0); 
 
-class DisjointSet(s: Int) {
-    val size = MutableList(s + 1) { 1 }
-    val parent = MutableList(s + 1) { it }
-
-    fun findUPar(node: Int): Int {
-        if (parent[node] == node) return node
-        parent[node] = findUPar(parent[node])
-        return parent[node]
-    }
-
-    fun unionBySize(u: Int, v: Int) {
-        val Uparu = findUPar(u)
-        val Uparv = findUPar(v)
-
-        if (Uparu == Uparv) return
-
-        if (size[Uparu] < size[Uparv]) {
-            parent[Uparu] = Uparv
-            size[Uparv] += size[Uparu]
-        } else {
-            parent[Uparv] = Uparu
-            size[Uparu] += size[Uparv]
-        }
-    }
-}
-
-ENHANCED DISJOINT SET -->
-CPP -->
-class DisjointSet {
-private:
-    vector<int> size;
-    vector<int> parent;
-    vector<int> edge;
-public:
-    // Find the ultimate parent of a node with path compression
-    int findUPar(int node) {
-        if (parent[node] == node)
-            return node;
-        return parent[node] = findUPar(parent[node]);
-    }
-
-
-    // Constructor to initialize the data structures
-    DisjointSet(int s) {
-        size.resize(s + 1, 1);
-        parent.resize(s + 1);
-        edge.resize(s + 1, 0);
         for (int i = 0; i <= s; i++) {
             parent[i] = i;
         }
     }
 
+    public int findUPar(int node) {
+        if (parent[node] == node) {
+            return node;
+        }
+        return parent[node] = findUPar(parent[node]);
+    }
+
     // Get the number of edges in the component containing the node
-    int getEdges(int node) {
+    public int getEdges(int node) {
         return edge[findUPar(node)];
     }
 
     // Get the size of the component containing the node
-    int getSizes(int node) {
+    public int getSizes(int node) {
         return size[findUPar(node)];
     }
 
-    // Union two components by size
-    void unionBySize(int u, int v) {
+    public int getComponents(){
+        return components;
+    }
+
+    public void unionBySize(int u, int v) {
         int Uparu = findUPar(u);
         int Uparv = findUPar(v);
 
         if (Uparu == Uparv) {
-            edge[Uparu]++; // If already connected, increment the edge count
+            edge[Uparu]++; // already connected, increment edge count
             return;
         }
 
         if (size[Uparu] < size[Uparv]) {
             parent[Uparu] = Uparv;
             size[Uparv] += size[Uparu];
-            edge[Uparv] += edge[Uparu] + 1; // Update edge count when merging
+            edge[Uparv] += edge[Uparu] + 1;
         } else {
             parent[Uparv] = Uparu;
             size[Uparu] += size[Uparv];
             edge[Uparu] += edge[Uparv] + 1;
         }
-    }
-};
-
-
-KOTLIN -->
-class DisjointSet(s: Int) {
-    val size = MutableList(s + 1) { 1 }
-    val parent = MutableList(s + 1) { it }
-    val edge = MutableList(s + 1) { 0 }
-
-    fun findUPar(node: Int): Int {
-        if (parent[node] == node) return node
-        parent[node] = findUPar(parent[node])
-        return parent[node]
-    }
-
-    fun getEdges(node: Int): Int {
-        return edge[findUPar(node)]
-    }
-
-    fun getSizes(node: Int): Int {
-        return size[findUPar(node)]
-    }
-
-    fun unionBySize(u: Int, v: Int) {
-        val Uparu = findUPar(u)
-        val Uparv = findUPar(v)
-
-        if (Uparu == Uparv) {
-            edge[Uparu]++  // If they're already connected, increment the edge count
-            return
-        }
-
-        if (size[Uparu] < size[Uparv]) {
-            parent[Uparu] = Uparv
-            size[Uparv] += size[Uparu]
-            edge[Uparv] += edge[Uparu] + 1  // Update edge count when merging
-        } else {
-            parent[Uparv] = Uparu
-            size[Uparu] += size[Uparv]
-            edge[Uparu] += edge[Uparv] + 1
-        }
+        components--;
     }
 }
-
