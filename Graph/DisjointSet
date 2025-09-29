@@ -1,4 +1,8 @@
 public class DisjointSet {
+
+    // To make literal components, create Map<Integer, List<Integer>> at post-processing 
+    // Map will store Upar -> List of nodes
+
     private int[] size;
     private int[] parent;
     private int[] edge;
